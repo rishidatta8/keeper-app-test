@@ -18,13 +18,13 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      var querySnapshot = await getDocs(collection(db,'notes'));
-        var notesArray = [];
-        querySnapshot.forEach((doc) => {
-          var data = doc.data();
-          notesArray.push({ title: data.title, content: data.content, firebaseId: doc.id});
-        });
-        setNotes(notesArray);
+      var querySnapshot = await getDocs(collection(db, 'notes'));
+      var notesArray = [];
+      querySnapshot.forEach((doc) => {
+        var data = doc.data();
+        notesArray.push({ title: data.title, content: data.content, firebaseId: doc.id });
+      });
+      setNotes(notesArray);
     }
     fetchData();
     setIsLoaded(true);
