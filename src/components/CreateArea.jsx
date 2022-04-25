@@ -3,7 +3,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { Fab, Zoom} from "@material-ui/core";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import db from "./Firebase";
 
 function CreateArea(props) {
@@ -28,7 +28,7 @@ function CreateArea(props) {
   async function addToFirebase(note){
     try{
       var date = new Date();
-      note.date = date.getTime();
+      note.date = serverTimestamp();
     const docRef = await addDoc(collection(db,'notes'), note);
     console.log("Added note");
     return docRef.id;
