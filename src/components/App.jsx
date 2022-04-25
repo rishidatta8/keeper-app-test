@@ -14,7 +14,7 @@ function App() {
 
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isPageLoaded, setIsPageLoaded] = useState(false); //this helps
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,11 +32,11 @@ function App() {
 
   useEffect(() => {
     if (isLoaded) {
-      setIsPageLoaded(true);
+      const temp = !isPageLoaded;
+      setIsPageLoaded(temp);
     }
+    // eslint-disable-next-line
   }, [isLoaded]);
-
-
 
   function addNote(newNote) {
     setNotes(prevNotes => {
@@ -45,8 +45,6 @@ function App() {
   }
 
   async function deleteNote(id, firebaseId) {
-
-    //await delete doc(query(collection(db, "notes"), where("firebaseId", "==", firebaseId));
     await deleteDoc(doc(db, "notes", firebaseId));
 
     setNotes(prevNotes => {

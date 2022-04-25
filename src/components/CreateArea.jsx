@@ -3,7 +3,6 @@ import AddIcon from "@material-ui/icons/Add";
 import { Fab, Zoom} from "@material-ui/core";
 import { SlideDown } from "react-slidedown";
 import "react-slidedown/lib/slidedown.css";
-//import { TransitEnterexit } from "@material-ui/icons";
 import { collection, addDoc } from "firebase/firestore";
 import db from "./Firebase";
 
@@ -38,11 +37,8 @@ function CreateArea(props) {
 
   async function submitNote(event) {
     var firebaseId = await addToFirebase(note);
-      setTimeout(() => {
         note.firebaseId = firebaseId;
         props.onAdd(note);
-      }, 100);
-
     setNote({
       title: "",
       content: ""
@@ -51,7 +47,6 @@ function CreateArea(props) {
   }
 
   function handleClick() {
-    //console.log(document.querySelector(".slidingClass"));
     setCLick(true);
   }
 
@@ -93,14 +88,3 @@ function CreateArea(props) {
 }
 
 export default CreateArea;
-
-/* <textarea
-          name="content"
-          onChange={handleChange}
-          value={note.content}
-          placeholder="Take a note..."
-          rows="3"
-        />
-        <Fab onClick={submitNote}>
-          <AddIcon />
-        </Fab> */
