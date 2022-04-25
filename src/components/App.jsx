@@ -33,7 +33,7 @@ function App() {
     }
     fetchData();
     setIsLoaded(true);
-  });
+  }, []);
 
   // useEffect(() => {
   //   unsub();
@@ -45,7 +45,7 @@ function App() {
       setIsPageLoaded(temp);
     }
     // eslint-disable-next-line
-  });
+  }, [isLoaded]);
 
   function addNote(newNote) {
     setNotes(prevNotes => {
