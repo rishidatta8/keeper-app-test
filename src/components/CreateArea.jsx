@@ -27,8 +27,7 @@ function CreateArea(props) {
 
   async function addToFirebase(note){
     try{
-      var date = new Date();
-      note.date = serverTimestamp();
+      note.createdAt = serverTimestamp();
     const docRef = await addDoc(collection(db,'notes'), note);
     console.log("Added note");
     return docRef.id;

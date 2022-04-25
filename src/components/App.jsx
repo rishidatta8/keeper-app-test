@@ -5,7 +5,8 @@ import Note from "./Note";
 import CreateArea from "./CreateArea";
 import {collection, getDocs } from "firebase/firestore";
 import db from "./Firebase";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc, orderBy, query} from "firebase/firestore";
+import {onSnapshot } from "firebase/firestore";
 
 
 function App() {
@@ -17,7 +18,11 @@ function App() {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
+    // const unsub = onSnapshot(doc(db, "notes"), (doc) => {
+    //   console.log(doc);
+    // });
     async function fetchData() {
+
       var querySnapshot = await getDocs(collection(db, 'notes'));
       var notesArray = [];
       querySnapshot.forEach((doc) => {
@@ -28,7 +33,11 @@ function App() {
     }
     fetchData();
     setIsLoaded(true);
-  }, []);
+  });
+
+  // useEffect(() => {
+  //   unsub();
+  // });
 
   useEffect(() => {
     if (isLoaded) {
@@ -36,7 +45,7 @@ function App() {
       setIsPageLoaded(temp);
     }
     // eslint-disable-next-line
-  }, [isLoaded]);
+  });
 
   function addNote(newNote) {
     setNotes(prevNotes => {
