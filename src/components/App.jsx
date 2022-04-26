@@ -52,6 +52,7 @@ setLoaded(false);
     <div>
       <Header />
       <CreateArea onAdd={addNote} />
+      <div style={{paddingLeft: "16px"}}>
       {notes.map((noteItem, index) => {
         return (
           <Note
@@ -64,7 +65,8 @@ setLoaded(false);
           />
         );
       })}
-      <Footer />
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }

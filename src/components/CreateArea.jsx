@@ -25,10 +25,10 @@ function CreateArea(props) {
     });
   }
 
-  async function addToFirebase(note){
+  function addToFirebase(note){
     try{
       note.createdAt = serverTimestamp();
-    const docRef = await addDoc(collection(db,'notes'), note);
+    const docRef = addDoc(collection(db,'notes'), note);
     console.log("Added note");
     return docRef.id;
   }catch(err){
@@ -36,8 +36,8 @@ function CreateArea(props) {
   }
   }
 
-  async function submitNote(event) {
-    var firebaseId = await addToFirebase(note);
+  function submitNote(event) {
+    var firebaseId = addToFirebase(note);
         note.firebaseId = firebaseId;
         props.onAdd(note);
     setNote({
