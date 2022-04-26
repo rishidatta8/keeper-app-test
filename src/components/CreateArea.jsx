@@ -44,7 +44,7 @@ function CreateArea(props) {
       title: "",
       content: ""
     });
-    event.persist();
+    event.preventDefault();
   }
 
   function handleClick() {
