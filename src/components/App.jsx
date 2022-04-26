@@ -3,7 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
-import {collection, getDocs } from "firebase/firestore";
+import {collection} from "firebase/firestore";
 import db from "./Firebase";
 import { doc, deleteDoc, orderBy, query} from "firebase/firestore";
 import {onSnapshot } from "firebase/firestore";
@@ -12,40 +12,26 @@ import {onSnapshot } from "firebase/firestore";
 function App() {
   const [notes, setNotes] = useState([]);
 
+  const [isLoaded, setLoaded] = useState(false);
 
-
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
-
-  useEffect(() => {
-    // const unsub = onSnapshot(doc(db, "notes"), (doc) => {
-    //   console.log(doc);
-    // });
-    async function fetchData() {
-
-      var querySnapshot = await getDocs(collection(db, 'notes'));
+  function fetchData(){
+    setLoaded(true);
+    const q = query(collection(db, "notes"), orderBy("createdAt"));
+    const queryData = onSnapshot(q, (querySnapshot) => {
       var notesArray = [];
-      querySnapshot.forEach((doc) => {
-        var data = doc.data();
-        notesArray.push({ title: data.title, content: data.content, firebaseId: doc.id });
-      });
-      setNotes(notesArray);
-    }
+    querySnapshot.forEach((doc) => {
+      var data = doc.data();
+      notesArray.push({ title: data.title, content: data.content, firebaseId: doc.id });
+    }); 
+    setNotes(notesArray);
+  });
+setLoaded(false);
+}
+
+  useEffect(()=>{
     fetchData();
-    setIsLoaded(true);
-  }, []);
+  },[]);
 
-  // useEffect(() => {
-  //   unsub();
-  // });
-
-  useEffect(() => {
-    if (isLoaded) {
-      const temp = !isPageLoaded;
-      setIsPageLoaded(temp);
-    }
-    // eslint-disable-next-line
-  }, [isLoaded]);
 
   function addNote(newNote) {
     setNotes(prevNotes => {
@@ -53,9 +39,8 @@ function App() {
     });
   }
 
-  async function deleteNote(id, firebaseId) {
-    await deleteDoc(doc(db, "notes", firebaseId));
-
+  function deleteNote(id, firebaseId) {
+    deleteDoc(doc(db, "notes", firebaseId));
     setNotes(prevNotes => {
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
